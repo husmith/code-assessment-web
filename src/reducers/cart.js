@@ -1,7 +1,8 @@
 import {
   ADD_TO_CART,
   CHECKOUT_REQUEST,
-  CHECKOUT_FAILURE
+  CHECKOUT_FAILURE,
+  REMOVE_FROM_CART
 } from '../constants/ActionTypes'
 
 const initialState = {
@@ -16,6 +17,14 @@ const addedIds = (state = initialState.addedIds, action) => {
         return state
       }
       return [ ...state, action.productId ]
+    case REMOVE_FROM_CART:
+      if (state.indexOf(action.productId) !== -1) {
+        return state
+      }
+      return [
+        ...state.slice(0, state.indexOf(action.productId)),
+                ...state.slice(state.indexOf(action.productId) + 1)
+         ]
     default:
       return state
   }
