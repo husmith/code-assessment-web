@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Product from './Product'
 import Counter from './Counter'
-import {CardItem, CalcStyles, CardContainer, CheckoutButton, InlineFlex} from '../styles'
+import {Card, CardItem, CardImage, CalcStyles, CardContainer, CheckoutButton, InlineFlex} from '../styles'
 
 
   const PriceCalcs = ({ total, totalTax }) => (
@@ -26,33 +26,30 @@ const Cart  = ({ products, total, onCheckoutClicked }) => {
 
   const nodes = hasProducts ? (
     products.map(product =>
-      <div>
+      <Card key={product.id}>
         <InlineFlex>
-          <div className="product-img">
-            <img src={product.img}/>
+          <div className="cart-product-img">
+          <CardImage src={product.img}/>
           </div>
-          <div className="product-info">
+          <div className="cart-product-info">
             <div className="product-title">{product.title}</div>
             <div className="product-price">{product.price}</div>
             <a className="remove">Remove</a>
           </div>
         </InlineFlex>
         <Counter />
-      </div>
+      </Card>
     )
   ) : (
     <em>Please add some products to cart.</em>
   )
 
   return (
-    <div>
-       <CardContainer>
-      <h3>Your Cart</h3>
-      <div>{nodes}</div>
-      <PriceCalcs total={total} totalTax={totalTax}/>
+    <CardContainer>
+      {nodes}
+    <PriceCalcs total={total} totalTax={totalTax}/>
     <CheckoutButton onClick={onCheckoutClicked} disabled={hasProducts ? '' : 'disabled'}>Checkout</CheckoutButton>
     </CardContainer>
-    </div>
   )
 }
 

@@ -67,6 +67,7 @@ export const InlineFlex = styled.div`
 export const CardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
   justify-content: space-between;
 `;
 
@@ -76,6 +77,13 @@ export const Card = styled.div`
   background-color: ${colors.white};
   border-radius: 0.5em;
   overflow: hidden;
+  .cart-product-img {
+    width: 45%;
+  }
+  .cart-product-info {
+    width: 55%;
+    padding-left: 1rem;
+  }
   ${desktop(`flex-wrap: nowrap; display: inline-flex;`)};
 `;
 
@@ -107,6 +115,7 @@ export const CardContent = styled.div`
   .product-info {
     width: 100%;
   }
+
 
   ${desktop`
     width: 60%;
