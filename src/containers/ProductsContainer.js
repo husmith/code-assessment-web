@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { addToCart } from '../actions'
 import { getVisibleProducts } from '../reducers/products'
+import {getCartProducts} from '../reducers'
 import ProductItem from '../components/ProductItem'
 import ProductsList from '../components/ProductsList'
 
-const ProductsContainer = ({ products, addToCart }) => (
-  <ProductsList title="Products">
+const ProductsContainer = ({ products, productsInCart, addToCart }) => (
+  <ProductsList title="Acme Store" productsInCart={productsInCart}>
     {products.map(product =>
       <ProductItem
         key={product.id}
@@ -28,7 +29,8 @@ ProductsContainer.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  products: getVisibleProducts(state.products)
+  products: getVisibleProducts(state.products),
+  productsInCart: getCartProducts(state)
 })
 
 export default connect(
