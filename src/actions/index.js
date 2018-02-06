@@ -22,6 +22,14 @@ export const addToCart = productId => (dispatch, getState) => {
     dispatch(addToCartUnsafe(productId))
   }
 }
+export const removeFromCart = productId => (dispatch, getState) => {
+if (getState().cart.addedIds.indexOf(productId) !== -1 && getState().cart.quantityById[productId] > 0) {
+    dispatch({
+      type: types.REMOVE_FROM_CART,
+      productId
+    });
+}
+}
 
 export const checkout = products => (dispatch, getState) => {
   const { cart } = getState()

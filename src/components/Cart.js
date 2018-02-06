@@ -2,24 +2,25 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Product from './Product'
 import Counter from './Counter'
-import {Card, CardItem, CardImage, CalcStyles, CardContainer, CheckoutButton, InlineFlex} from '../styles'
+import {Card, Button, CardItem, CardImage, CalcStyles, CardContainer, CheckoutButton, InlineFlex} from '../styles'
 
+const moneyFormat = x => Number.parseFloat(x).toFixed(2);
 
   const PriceCalcs = ({ total, totalTax }) => (
     <CalcStyles>
       <InlineFlex>
         <div className="label">Subtotal</div>
-        <div className="text">${total}</div>
+        <div className="text">${moneyFormat(total)}</div>
       </InlineFlex>
       <InlineFlex>
         <div className="label">Taxes</div>
-        <div className="text">${totalTax}</div>
+        <div className="text">${moneyFormat(totalTax)}</div>
       </InlineFlex>
-      <div className="total">${total + totalTax}</div>
+      <div className="total">${moneyFormat(total + totalTax)}</div>
     </CalcStyles>
   );
 
-const Cart  = ({ products, total, onCheckoutClicked }) => {
+const Cart  = ({ products, total, onCheckoutClicked, onRemoveItem }) => {
   const hasProducts = products.length > 0
 
   const totalTax = total * 0.01 / 100;
@@ -34,7 +35,7 @@ const Cart  = ({ products, total, onCheckoutClicked }) => {
           <div className="cart-product-info">
             <div className="product-title">{product.title}</div>
             <div className="product-price">{product.price}</div>
-            <a className="remove">Remove</a>
+            <Button onClick={() => onRemoveItem(product.id)} className="remove">Remove</Button>
           </div>
         </InlineFlex>
         <Counter />
