@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "prop-types": "^15.5.10",
+    "rambda": "^1.0.10",
     "react": "^15.5.0",
     "react-dom": "^15.5.0",
     "react-redux": "^5.0.5",
