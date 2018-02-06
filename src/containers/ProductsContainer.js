@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { addToCart } from '../actions'
 import { getVisibleProducts } from '../reducers/products'
-import {getCartProducts} from '../reducers'
+import { getCartProducts } from '../reducers'
 import ProductItem from '../components/ProductItem'
 import ProductsList from '../components/ProductsList'
 

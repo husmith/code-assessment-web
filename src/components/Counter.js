@@ -1,11 +1,11 @@
 import React from 'react'
 import {CounterStyle} from '../styles'
 
-const Counter = () => (
+const Counter = ({quantity, onAddItemClicked, onRemoveItemClicked}) => (
   <CounterStyle alignItems={`center`}>
-    <button className="left">-</button>
-    <div className="value">2</div>
-    <button className="right">+</button>
+    <button onClick={onRemoveItemClicked} className="left">-</button>
+    <div className="value">{quantity}</div>
+    <button onClick={onAddItemClicked} className="right">+</button>
   </CounterStyle>
 );
 
