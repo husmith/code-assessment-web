@@ -22,13 +22,24 @@ export const addToCart = productId => (dispatch, getState) => {
     dispatch(addToCartUnsafe(productId))
   }
 }
-export const removeFromCart = productId => (dispatch, getState) => {
+
+export const removeProductFromCart = productId => (dispatch, getState) => {
 if (getState().cart.addedIds.indexOf(productId) !== -1 && getState().cart.quantityById[productId] > 0) {
+
     dispatch({
-      type: types.REMOVE_FROM_CART,
+      type: types.REMOVE_PRODUCT_FROM_CART,
+      payload: {productId, quantity: getState().cart.quantityById[productId]}
+    });
+  }
+}
+
+export const removeItemFromCart = productId => (dispatch, getState) => {
+if (getState().cart.addedIds.indexOf(productId) !== -1 && getState().cart.quantityById[productId] > 1) {
+    dispatch({
+      type: types.REMOVE_ITEM_FROM_CART,
       productId
     });
-}
+  }
 }
 
 export const checkout = products => (dispatch, getState) => {

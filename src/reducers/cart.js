@@ -2,8 +2,12 @@ import {
   ADD_TO_CART,
   CHECKOUT_REQUEST,
   CHECKOUT_FAILURE,
-  REMOVE_FROM_CART
+  REMOVE_FROM_CART,
+  REMOVE_ITEM_FROM_CART,
+  REMOVE_PRODUCT_FROM_CART
 } from '../constants/ActionTypes'
+import * as R from 'rambda'
+
 
 const initialState = {
   addedIds: [],
@@ -17,13 +21,13 @@ const addedIds = (state = initialState.addedIds, action) => {
         return state
       }
       return [ ...state, action.productId ]
-    case REMOVE_FROM_CART:
-      if (state.indexOf(action.productId) === -1) {
+    case REMOVE_PRODUCT_FROM_CART:
+      if (state.indexOf(action.payload.productId) === -1) {
         return state
       }
       return [
-        ...state.slice(0, state.indexOf(action.productId)),
-                ...state.slice(state.indexOf(action.productId) + 1)
+        ...state.slice(0, state.indexOf(action.payload.productId)),
+                ...state.slice(state.indexOf(action.payload.productId) + 1)
          ]
     default:
       return state
@@ -37,10 +41,12 @@ const quantityById = (state = initialState.quantityById, action) => {
       return { ...state,
         [productId]: (state[productId] || 0) + 1
       }
-    case REMOVE_FROM_CART:
+    case REMOVE_ITEM_FROM_CART:
       return { ...state,
         [productId]: state[productId] - 1
       }
+    case REMOVE_PRODUCT_FROM_CART:
+      return R.omit(action.payload.productId)
     default:
       return state
   }
