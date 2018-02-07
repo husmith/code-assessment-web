@@ -9,7 +9,8 @@ describe('reducers', () => {
       beforeEach(() => {
         state = reducer({}, {
           type: 'RECEIVE_PRODUCTS',
-          products: [
+          payload: {
+            products: [
             {
               id: 1,
               title: 'Product 1',
@@ -20,7 +21,7 @@ describe('reducers', () => {
               title: 'Product 2',
               inventory: 1
             }
-          ]
+          ]}
         })
       })
 
@@ -58,7 +59,7 @@ describe('reducers', () => {
       describe('when an item is added to the cart', () => {
 
         beforeEach(() => {
-          state = reducer(state, { type: 'ADD_TO_CART', productId: 1 })
+          state = reducer(state, { type: 'ADD_TO_CART', payload: {productId: 1} })
         })
 
         it('the inventory is reduced', () => {

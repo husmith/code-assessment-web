@@ -7,13 +7,14 @@ import { getCartProducts } from '../reducers'
 import ProductItem from '../components/ProductItem'
 import ProductsList from '../components/ProductsList'
 
-const ProductsContainer = ({ products, productsInCart, addToCart }) => (
+const ProductsContainer = ({ products, productsInCart, addToCart, removeFromCart }) => (
   <ProductsList title="Acme Store" productsInCart={productsInCart}>
     {products.map(product =>
       <ProductItem
         key={product.id}
         product={product}
-        onAddToCartClicked={() => addToCart(product.id)} />
+        onAddToCartClicked={() => addToCart(product.id)}
+/>
     )}
   </ProductsList>
 )

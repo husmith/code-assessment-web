@@ -5,7 +5,7 @@ REMOVE_FROM_CART,
   CHECKOUT_FAILURE
 } from '../constants/ActionTypes'
 import * as R from 'rambda'
-import {createAction, handleActions, combineActions } from 'redux-actions'
+import {createAction, handleActions } from 'redux-actions'
 
 export const addToCartSafe = createAction(ADD_TO_CART);
 export const removeFromCart = createAction(REMOVE_FROM_CART);
@@ -46,18 +46,6 @@ export const getQuantity = (state, productId) =>
   state.quantityById[productId] || 0
 
 export const getAddedIds = state => state.addedIds
-
-// const cart = handleActions({
-//   [checkoutRequest](state, {payload: {addedIds, quantityById}}) {
-//     return initialState;
-//   },
-//   [checkoutFailure](state, {payload: {cart}}) {
-//     return cart;
-//   }
-// },  (state) => ({
-//   addedIds: addedIds(state.addedIds, action),
-//   quantityById: quantityById(state.quantityById, action)
-// }))
 
 const cart = (state = initialState, action) => {
   switch (action.type) {

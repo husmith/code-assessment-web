@@ -1,58 +1,50 @@
 import { combineReducers } from 'redux'
-import { RECEIVE_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART,REMOVE_ITEM_FROM_CART,REMOVE_PRODUCT_FROM_CART } from '../constants/ActionTypes'
+import { RECEIVE_PRODUCTS } from '../constants/ActionTypes'
+import { addToCartSafe, removeFromCart} from './cart'
+import { createAction, handleActions, handleAction } from 'redux-actions'
 
-const products = (state, action) => {
-  switch (action.type) {
-    case ADD_TO_CART:
-      return {
-        ...state,
-        inventory: state.inventory - 1
-      }
-    case REMOVE_ITEM_FROM_CART:
-      return {
-        ...state,
-        inventory: state.inventory + 1
-      }
-    case REMOVE_PRODUCT_FROM_CART:
-      return {
-        ...state,
-        inventory: state.inventory + action.payload.quantity
-      }
-    default:
-      return state
+export const receiveProducts = createAction(RECEIVE_PRODUCTS);
+
+const products = handleActions({
+  [addToCartSafe](state, action){
+    return {
+      ...state,
+      inventory: state.inventory - 1
+    }
+  },
+  [removeFromCart](state, action){
+    return {
+      ...state,
+      inventory: state.inventory + 1
+    }
   }
-}
+}, []);
 
 const byId = (state = {}, action) => {
-  switch (action.type) {
+  let {type, payload} = action
+  switch (type) {
     case RECEIVE_PRODUCTS:
       return {
         ...state,
-        ...action.products.reduce((obj, product) => {
+        ...payload.products.reduce((obj, product) => {
           obj[product.id] = product
           return obj
         }, {})
       }
     default:
-      const { productId } = action
-      if (productId) {
+      if (payload && payload.productId) {
         return {
           ...state,
-          [productId]: products(state[productId], action)
+          [payload.productId]: products(state[payload.productId], action)
         }
       }
       return state
   }
 }
 
-const visibleIds = (state = [], action) => {
-  switch (action.type) {
-    case RECEIVE_PRODUCTS:
-      return action.products.map(product => product.id)
-    default:
-      return state
-  }
-}
+const visibleIds = handleAction(
+  [receiveProducts], (state, action) => action.payload.products.map(product => product.id), []
+);
 
 export default combineReducers({
   byId,

@@ -35,7 +35,7 @@ const Cart  = ({ products, total, onCheckoutClicked, onRemoveProduct, onRemoveIt
           <div className="cart-product-info">
             <div className="product-title">{product.title}</div>
             <div className="product-price">{product.price}</div>
-            <Button onClick={() => onRemoveProduct(product.id)} className="remove">Remove</Button>
+            <Button onClick={() => onRemoveProduct(product.id, product.quantity)} className="remove">Remove</Button>
           </div>
         </InlineFlex>
         <Counter quantity={product.quantity} onAddItemClicked={() => onAddItem(product.id)} onRemoveItemClicked={() => onRemoveItem(product.id)}/>
