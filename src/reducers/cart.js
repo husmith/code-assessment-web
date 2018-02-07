@@ -1,16 +1,23 @@
 import {
 ADD_TO_CART,
 REMOVE_FROM_CART,
+UPDATE_CART_COUNT,
+INCREMENT_CART,
+DECREMENT_CART,
   CHECKOUT_REQUEST,
   CHECKOUT_FAILURE
 } from '../constants/ActionTypes'
 import * as R from 'rambda'
-import {createAction, handleActions } from 'redux-actions'
+import {createAction, createActions, combineActions, handleActions } from 'redux-actions'
 
 export const addToCartSafe = createAction(ADD_TO_CART);
 export const removeFromCart = createAction(REMOVE_FROM_CART);
 export const checkoutRequest = createAction(CHECKOUT_REQUEST);
 export const checkoutFailure = createAction(CHECKOUT_FAILURE);
+export const decrementCart = createAction(DECREMENT_CART, ({productId, amount}) => ({productId, amount: -1 }));
+export const incrementCart = createAction(INCREMENT_CART, (productId, amount) => ({productId, amount }));
+
+// export const updateCartCount = combineActions(incrementCart, decrementCart);
 
 const initialState = {
   addedIds: [],
@@ -36,11 +43,27 @@ const quantityById = handleActions({
     }
   },
   [removeFromCart](state, {payload: {productId}}) {
-    return { ...state,
-      [productId]: state[productId] - 1
+    return R.omit(`${productId}`, state);
+  },
+  [decrementCart](state, {payload: {productId, amount}}) {
+    return {
+      ...state,
+      [productId]: state[productId] - amount
     }
-  }
-}, initialState.quantityById);
+  },
+  [incrementCart](state, {payload: {productId, amount}}) {
+    return {
+      ...state,
+      [productId]: state[productId] + amount
+    }
+  },
+  // [updateCartCount](state, { payload: { productId, amount } }){
+  //     return {
+  //       ...state,
+  //       [productId]: state[productId] + amount
+  //     }
+  //   }
+},initialState.quantityById);
 
 export const getQuantity = (state, productId) =>
   state.quantityById[productId] || 0

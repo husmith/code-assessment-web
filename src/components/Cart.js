@@ -20,7 +20,7 @@ const moneyFormat = x => Number.parseFloat(x).toFixed(2);
     </CalcStyles>
   );
 
-const Cart  = ({ products, total, onCheckoutClicked, onRemoveProduct, onRemoveItem, onAddItem }) => {
+const Cart  = ({ products, total, onCheckoutClicked, onRemoveItem, onDecrement, onIncrement }) => {
   const hasProducts = products.length > 0
 
   const totalTax = total * 0.01 / 100;
@@ -35,10 +35,10 @@ const Cart  = ({ products, total, onCheckoutClicked, onRemoveProduct, onRemoveIt
           <div className="cart-product-info">
             <div className="product-title">{product.title}</div>
             <div className="product-price">{product.price}</div>
-            <Button onClick={() => onRemoveProduct(product.id, product.quantity)} className="remove">Remove</Button>
+            <Button onClick={() => onRemoveItem(product.id, product.quantity)} className="remove">Remove</Button>
           </div>
         </InlineFlex>
-        <Counter quantity={product.quantity} onAddItemClicked={() => onAddItem(product.id)} onRemoveItemClicked={() => onRemoveItem(product.id)}/>
+        <Counter quantity={product.quantity} onIncrementClicked={() => onIncrement(product.id)} onDecrementClicked={() => onDecrement(product.id)}/>
       </Card>
     )
   ) : (

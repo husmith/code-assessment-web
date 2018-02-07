@@ -1,4 +1,4 @@
-import cart from './cart'
+import cart, * as actions from './cart'
 
 describe('reducers', () => {
   describe('cart', () => {
@@ -26,6 +26,28 @@ describe('reducers', () => {
       })
     })
 
+    it('should handle DECREMENT_CART action', () => {
+      const state = {
+        addedIds: [1, 2],
+        quantityById: {1: 3, 2: 4}
+      };
+      expect(cart(state, { type: 'DECREMENT_CART', payload: {productId: 2, amount: 2}})).toEqual({
+        addedIds: [ 1, 2 ],
+        quantityById: { 1: 3, 2: 2 }
+      })
+    })
+    it('should handle INCREMENT_CART action', () => {
+      const state = {
+        addedIds: [1, 2],
+        quantityById: {1: 1, 2: 2}
+      };
+
+      expect(cart(state, { type: 'INCREMENT_CART', payload: {productId: 2, amount: 2}})).toEqual({
+        addedIds: [ 1, 2 ],
+        quantityById: { 1: 1, 2: 4 }
+      })
+    })
+
     it('should handle REMOVE_FROM_CART action', () => {
       const state = {
         addedIds: [1, 2],
@@ -33,7 +55,7 @@ describe('reducers', () => {
       };
       expect(cart(state, { type: 'REMOVE_FROM_CART',  payload: {productId: 1}})).toEqual({
         addedIds: [ 2 ],
-        quantityById: { 1: 0, 2: 1 }
+        quantityById: { 2: 1 }
       })
     })
 

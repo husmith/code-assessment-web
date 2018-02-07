@@ -57,7 +57,6 @@ describe('reducers', () => {
       })
 
       describe('when an item is added to the cart', () => {
-
         beforeEach(() => {
           state = reducer(state, { type: 'ADD_TO_CART', payload: {productId: 1} })
         })
@@ -72,6 +71,66 @@ describe('reducers', () => {
               id: 2,
               title: 'Product 2',
               inventory: 1
+            }
+          ])
+        })
+
+      })
+      describe('when cart item is decremented', () => {
+        beforeEach(() => {
+          state = reducer(state, { type: 'DECREMENT_CART', payload: {productId: 1, amount: 2} })
+        })
+
+        it('the inventory is increased', () => {
+          expect(products.getVisibleProducts(state)).toEqual([
+            {
+              id: 1,
+              title: 'Product 1',
+              inventory: 4
+            }, {
+              id: 2,
+              title: 'Product 2',
+              inventory: 1
+            }
+          ])
+        })
+
+      })
+      describe('when cart item is incremented', () => {
+        beforeEach(() => {
+          state = reducer(state, { type: 'INCREMENT_CART', payload: {productId: 1, amount: 2} })
+        })
+
+        it('the inventory is decreased', () => {
+          expect(products.getVisibleProducts(state)).toEqual([
+            {
+              id: 1,
+              title: 'Product 1',
+              inventory: 0
+            }, {
+              id: 2,
+              title: 'Product 2',
+              inventory: 1
+            }
+          ])
+        })
+
+      })
+      describe('when an item is removed from the cart', () => {
+        beforeEach(() => {
+          state = reducer(state, { type: 'REMOVE_FROM_CART', payload: {productId: 2, amount: 3} })
+        })
+
+        it('the inventory is increased', () => {
+          expect(products.getVisibleProducts(state)).toEqual([
+            {
+              id: 1,
+              title: 'Product 1',
+              inventory: 2
+            }, {
+              id: 2,
+              title: 'Product 2',
+              inventory: 4
             }
           ])
         })

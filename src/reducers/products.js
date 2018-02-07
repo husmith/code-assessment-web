@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import { RECEIVE_PRODUCTS } from '../constants/ActionTypes'
-import { addToCartSafe, removeFromCart} from './cart'
+import { RECEIVE_PRODUCTS, REMOVE_FROM_CART } from '../constants/ActionTypes'
+import { addToCartSafe, removeFromCart, incrementCart, decrementCart} from './cart'
 import { createAction, handleActions, handleAction } from 'redux-actions'
 
 export const receiveProducts = createAction(RECEIVE_PRODUCTS);
@@ -12,12 +12,25 @@ const products = handleActions({
       inventory: state.inventory - 1
     }
   },
-  [removeFromCart](state, action){
+  [removeFromCart](state, {payload: {amount}}){
     return {
       ...state,
-      inventory: state.inventory + 1
+      inventory: state.inventory + amount
+    }
+  },
+  [incrementCart](state, {payload: {amount}}){
+    return {
+      ...state,
+      inventory: state.inventory - amount
+    }
+  },
+  [decrementCart](state, {payload: {amount}} ){
+    return {
+      ...state,
+      inventory: state.inventory + amount
     }
   }
+
 }, []);
 
 const byId = (state = {}, action) => {
@@ -30,6 +43,11 @@ const byId = (state = {}, action) => {
           obj[product.id] = product
           return obj
         }, {})
+      }
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        [payload.productId]: products(state[payload.productId], action)
       }
     default:
       if (payload && payload.productId) {

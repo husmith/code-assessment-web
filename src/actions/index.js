@@ -14,15 +14,20 @@ export const addToCart = productId => (dispatch, getState) => {
   }
 }
 
-export const removeFromCart = productId => (dispatch, getState) => {
-  if (getState().cart.addedIds.indexOf(productId) !== -1) {
-    dispatch({
-      type: types.REMOVE_FROM_CART,
-      payload: {productId}
-    })
-  }
+export const removeItemFromCart = (productId, quantity) => (dispatch, getState) => {
+  dispatch({
+    type: types.REMOVE_FROM_CART,
+    payload: {productId, amount: quantity}
+  });
 }
-
+export const decrementCartCount = (productId) => (dispatch, getState) => {
+  if (getState().cart.quantityById[productId] > 1) {
+  dispatch({
+    type: types.DECREMENT_CART,
+    payload: {productId, amount: 1}
+  });
+}
+}
 // export const removeProductFromCart = productId => (dispatch, getState) => {
 // if (getState().cart.addedIds.indexOf(productId) !== -1 && getState().cart.quantityById[productId] > 0) {
 //
